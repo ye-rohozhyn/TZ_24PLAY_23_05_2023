@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -5,7 +6,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float moveHorizontalSpeed = 5f;
     [SerializeField] private float moveForwardSpeed = 5f;
     [SerializeField] private Camera mainCamera;
+    [SerializeField] private ParticleSystem warpEffect;
 
+    [Header("UI")]
+    [SerializeField] private GameObject startText;
+
+    public static PlayerMovement singleton;
     private Transform _transform;
 
     private Vector3 _mousePreviousPosition;
@@ -17,8 +23,12 @@ public class PlayerMovement : MonoBehaviour
 
     private bool _horizontalMoving;
 
+    private bool _startGame;
+    private bool _gameOver;
+
     private void Awake()
     {
+        singleton = this;
         _transform = transform;
     }
 
@@ -29,13 +39,25 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Movement();
+        if (_startGame & !_gameOver)
+        {
+            Movement();
+        }
     }
 
     private void PlayerInput()
     {
+        if (_gameOver) return;
+
         if (Input.GetMouseButtonDown(0))
         {
+            if (!_startGame)
+            {
+                startText.SetActive(false);
+                warpEffect.Play();
+                _startGame = true;
+            }
+
             _mousePreviousPosition = Input.mousePosition;
             _horizontalMoving = true;
         }
@@ -61,5 +83,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         _transform.position = _newPosition;
+    }
+
+    public void GameOver()
+    {
+        _gameOver = true;
     }
 }

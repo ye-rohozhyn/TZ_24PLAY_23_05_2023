@@ -9,12 +9,12 @@ public class TrackGenerator : MonoBehaviour
     [SerializeField] private float blockLength = 30f;
     [SerializeField] private Vector3 spawnPosition;
 
-    private int _trackBlocksCount = 8;
+    private int _trackBlocksCount = 5;
     private GameObject[] _trackBlocks;
 
     private int _lastBlockIndex = 0;
-    private Vector3 _spawnOffset = new(0f, -500f, 0f);
-    private float _blockSpeed = 450.0f;
+    private Vector3 _spawnOffset = new(0f, -400f, 0f);
+    private float _blockSpeed = 500.0f;
 
     private void Awake()
     {
