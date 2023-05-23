@@ -31,7 +31,7 @@ public class Cube : MonoBehaviour
         {
             if (!_isPickuping)
             {
-                CubeStacking.singleton.RemoveCube(transform, other.transform);
+                CubeStacking.singleton.RemoveCube(transform);
             }
         }
     }

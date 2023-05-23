@@ -31,16 +31,16 @@ public class CubeStacking : MonoBehaviour
         playerAnimator.SetTrigger("Jump");
     }
 
-    public void RemoveCube(Transform cube, Transform newParent)
+    public void RemoveCube(Transform cube)
     {
         _cubes.Remove(cube);
-        cube.SetParent(newParent);
+        cube.SetParent(null);
+        Destroy(cube.gameObject, 5f);
 
         if (_cubes.Count == 0)
         {
             playerAnimator.enabled = false;
             pelvis.SetActive(true);
-            print("Lose");
         }
     }
 
