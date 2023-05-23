@@ -11,6 +11,8 @@ public class CubeStacking : MonoBehaviour
     [SerializeField] private List<Transform> _cubes = new();
     [SerializeField] private GameObject failScreen;
     [SerializeField] private ScreenShake screenShake;
+    [SerializeField] private ParticleSystem addCubeEffect;
+    [SerializeField] private Animator collectCubeTextAnimator;
 
     public static CubeStacking singleton;
 
@@ -31,6 +33,8 @@ public class CubeStacking : MonoBehaviour
         _cubes.Add(newCube);
 
         playerAnimator.SetTrigger("Jump");
+        addCubeEffect.Play();
+        collectCubeTextAnimator.SetTrigger("CollectCube");
     }
 
     public void RemoveCube(Transform cube)
@@ -38,7 +42,6 @@ public class CubeStacking : MonoBehaviour
         int index = _cubes.IndexOf(cube);
         _cubes.Remove(cube);
         cube.SetParent(null);
-        Destroy(cube.gameObject, 2f);
 
         if (_cubes.Count == 0 || index == 0)
         {
@@ -46,6 +49,10 @@ public class CubeStacking : MonoBehaviour
             playerAnimator.enabled = false;
             pelvis.SetActive(true);
             failScreen.SetActive(true);
+        }
+        else
+        {
+            Destroy(cube.gameObject, 2f);
         }
 
         screenShake.Shake();
